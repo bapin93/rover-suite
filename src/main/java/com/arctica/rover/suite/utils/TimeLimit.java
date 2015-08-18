@@ -1,5 +1,7 @@
 package com.arctica.rover.suite.utils;
 
+import java.util.concurrent.ExecutorService;
+
 public class TimeLimit implements IRunnable {
 
 	//==================================================================
@@ -12,6 +14,7 @@ public class TimeLimit implements IRunnable {
 	private final IRunnable _runnable;
 	private final Integer _limit;
 	private Throwable _throwable;
+	private ExecutorService _executorService;
 
 	//==================================================================
 	// CONSTRUCTORS
@@ -19,6 +22,7 @@ public class TimeLimit implements IRunnable {
 	public TimeLimit(final Integer limit, final IRunnable runnable) {
 		_limit = limit;
 		_runnable = runnable;
+		_executorService = ServiceUtils.getExecutorService();
 	}
 
 	//==================================================================
@@ -31,12 +35,12 @@ public class TimeLimit implements IRunnable {
 				try {
 					_runnable.run();
 				} catch (final Throwable t) {
-					TimeLimit.this._throwable = t;
+					_throwable = t;
 				}
 			}
 		});
 
-		thread.start();
+		_executorService.submit(thread);
 
 		try {
 			thread.join(_limit);
