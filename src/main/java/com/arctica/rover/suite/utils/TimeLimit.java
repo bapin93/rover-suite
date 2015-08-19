@@ -2,6 +2,11 @@ package com.arctica.rover.suite.utils;
 
 import java.util.concurrent.ExecutorService;
 
+/**
+ * <p>The TimeLimit class creates a timeout for pinging the server.</p>
+ * 
+ * @author andres
+ */
 public class TimeLimit implements IRunnable {
 
 	//==================================================================
@@ -28,14 +33,13 @@ public class TimeLimit implements IRunnable {
 	//==================================================================
 	// PUBLIC METHODS
 	//==================================================================
-	@SuppressWarnings("deprecation")
 	public synchronized void run() throws Throwable {
 		final Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
 					_runnable.run();
-				} catch (final Throwable t) {
-					_throwable = t;
+				} catch (final Throwable throwable) {
+					_throwable = throwable;
 				}
 			}
 		});
@@ -45,7 +49,7 @@ public class TimeLimit implements IRunnable {
 		try {
 			thread.join(_limit);
 			if(thread.isAlive()) {
-				thread.stop();
+				thread.interrupt();
 				throw new InterruptedException("Timeout");
 			}
 		} catch (final InterruptedException e) {
@@ -53,12 +57,9 @@ public class TimeLimit implements IRunnable {
 				_throwable = e;
 		}
 		if(_throwable != null) {
-			final Throwable tt = _throwable;
-			_throwable = null;
-			throw tt;
+			throw _throwable;
 		}
 	}
-
 
 	//==================================================================
 	// PROTECTED METHODS

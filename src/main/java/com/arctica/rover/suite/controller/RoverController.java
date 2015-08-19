@@ -37,12 +37,12 @@ public class RoverController {
 	 * no-args constructor
 	 * Construct a new BlimpController object that connects to the server at SERVER_ADDR.
 	 */
-	public RoverController() {
+	public RoverController(String ipAddress) {
 		_camera0Position = 52;
 		_nextRequestID = 0;
 		_rpc = null;
 		try {
-			URL url = new URL(SERVER_ADDRESS);
+			URL url = new URL("http://" + ipAddress + "10101");
 			_rpc = new JSONRPC2Session(url);
 			_isServerOnline = true;
 		} catch (Exception e) {
