@@ -113,7 +113,6 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 				_roverController.forward();
 				displayKey(e, "-arcticarover: Going Forward: ");
 			} else if(e.getKeyCode() == _AKey) {
-				_roverController.stop();
 				_roverController.left();
 				displayKey(e, "-arcticarover: Turning Left: ");
 			} else if(e.getKeyCode() == _SKey) {
@@ -121,7 +120,6 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 				_roverController.backward();
 				displayKey(e, "-arcticarover: Going Backward: ");
 			} else if(e.getKeyCode() == _DKey) {
-				_roverController.stop();
 				_roverController.right();
 				displayKey(e, "-arcticarover: Turning Right: ");
 			} else if(e.getKeyCode() == 37) {
