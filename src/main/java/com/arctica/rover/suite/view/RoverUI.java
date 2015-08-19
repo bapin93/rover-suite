@@ -78,7 +78,6 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		setContentPane(connectView());
 		revalidate();
 		repaint();
-		
 	}
 
 	//==================================================================
