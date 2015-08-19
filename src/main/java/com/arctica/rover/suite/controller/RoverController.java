@@ -40,9 +40,9 @@ public class RoverController {
 	public RoverController(String ipAddress) {
 		_camera0Position = 52;
 		_nextRequestID = 0;
-		_rpc = null;
 		try {
-			URL url = new URL("http://" + ipAddress + "10101");
+			URL url = new URL("http://" + ipAddress + ":10101");
+			System.out.println("Connected to: " + ipAddress);
 			_rpc = new JSONRPC2Session(url);
 			_isServerOnline = true;
 		} catch (Exception e) {

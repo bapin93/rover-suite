@@ -1,18 +1,26 @@
 package com.arctica.rover.suite.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import com.arctica.rover.suite.controller.RoverController;
+import com.arctica.rover.suite.utils.UIUtils;
 
 /**
  * <p>The RoverUI class provides a UI for interacting with the Arctica Rover.</p>
@@ -39,12 +47,15 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 	private Boolean [] _keys;
 	private Integer _camera0LL;
 	private Integer _camera0UL;
+	private String _loadingBar;
 
 	private JTextArea _displayArea;
-	private JTextField _ipAddress;
+	private JComboBox<String> _ipAddress;
 	private JButton _exit;
 	private JButton _submit;
 	private JButton _back;
+	private JButton _refresh;
+	private JLabel _loadingLabel;
 
 	//==================================================================
 	// CONSTRUCTORS
@@ -56,14 +67,18 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		_camera0LL = 17;
 		_camera0UL = 90;
 		_keys = new Boolean[256];
+		_loadingBar = "|";
+		setVisible(true);
 
 		setResizable(false);
 
-
+		setContentPane(loadingView());
+		load();
+		
 		setContentPane(connectView());
 		revalidate();
 		repaint();
-		setVisible(true);
+		
 	}
 
 	//==================================================================
@@ -73,7 +88,7 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		if( event.getSource() == _exit) {
 			System.exit(0);
 		} else if(event.getSource() == _submit) {
-			initializeRoverSuite(_ipAddress.getText());
+			initializeRoverSuite((String)_ipAddress.getSelectedItem());
 			setContentPane(controlView());
 			revalidate();
 			repaint();
@@ -81,8 +96,9 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 			setContentPane(connectView());
 			revalidate();
 			repaint();
+		} else if(event.getSource() == _refresh) {
+			refreshIPs();
 		}
-
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -175,6 +191,23 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 	//==================================================================
 	// PRIVATE METHODS
 	//==================================================================
+	private Container loadingView() {
+		final Container result = new JPanel();
+		setSize(350, 150);
+		
+		JPanel labelPanel = new JPanel();
+		JLabel label = new JLabel("Scanning Network...");
+		labelPanel.add(label);
+		
+	    _loadingLabel = new JLabel();
+		_loadingLabel.setText(_loadingBar);
+		
+		result.add(labelPanel, BorderLayout.PAGE_START);
+		result.add(_loadingLabel, BorderLayout.PAGE_END);
+		
+		return result;
+	}
+	
 	private Container connectView() {
 		final Container result = new JPanel();
 		result.setLayout(new GridLayout(3,1));
@@ -186,19 +219,30 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 
 		_submit = new JButton("Submit");
 		_submit.addActionListener(this);
+		
+		_refresh = new JButton("Refresh");
+		_refresh.addActionListener(this);
 
 		JLabel label = new JLabel();
-		label.setText("Please enter the ip address of your raspberry pi.");
+		label.setText(" Please select the ip address of your raspberry pi.");
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(_exit);
 		buttonPanel.add(_submit);	
 
-		_ipAddress = new JTextField();
-		_ipAddress.setPreferredSize(new Dimension(100, 20));
+		_ipAddress = new JComboBox<String>();
+		_ipAddress.setPreferredSize(new Dimension(200, 20));
+		for(String s : UIUtils.getIPAddressValues()) {
+			_ipAddress.addItem(s);
+		}
+		
+		JPanel ipPanel = new JPanel();
+		ipPanel.add(_ipAddress);
+		ipPanel.add(_refresh);
+		
 
 		result.add(label, BorderLayout.CENTER);
-		result.add(_ipAddress);
+		result.add(ipPanel);
 		result.add(buttonPanel);
 
 		result.setVisible(true);
@@ -249,7 +293,11 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 	}
 
 	private void initializeRoverSuite(String ipAddress) {
-
+		
+		for (int i = 0; i < _keys.length; i++) {
+			_keys[i] = Boolean.FALSE;
+		}
+		
 		_roverController = new RoverController(ipAddress);
 
 		TimerTask pingServer = new TimerTask() {
@@ -274,7 +322,30 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		_pingTimer = new Timer("Ping Server");
 		_pingTimer.scheduleAtFixedRate(pingServer, 0, 3000);
 	}
-
+	
+	private void refreshIPs() {
+		_ipAddress.removeAllItems();
+		for(String s : UIUtils.getIPAddressValues()) {
+			_ipAddress.addItem(s);
+		}
+	}
+	
+	private void load() {
+		for(int i = 0; i < 30; i++) {
+			_loadingBar += "|";
+			_loadingLabel.setText(_loadingBar);
+			try {
+				Thread.sleep(150);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(_loadingBar);
+			revalidate();
+			repaint();
+		}
+	}
+	
 	private void displayKey(KeyEvent e, String s) {
 		char id = e.getKeyChar();
 		String keyStatus = s;
@@ -283,6 +354,7 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		_displayArea.setCaretPosition(_displayArea.getDocument().getLength());
 	}
 
+	@SuppressWarnings("unused")
 	private void displayKeyCode(KeyEvent e) {
 		_displayArea.append(_NEW_LINE + "KeyCode: " + e.getKeyCode());
 		_displayArea.append(_NEW_LINE + "root@arcticarover:~# ");

@@ -1,5 +1,6 @@
 package com.arctica.rover.suite;
 
+import com.arctica.rover.suite.utils.UIUtils;
 import com.arctica.rover.suite.view.RoverUI;
 
 /**
@@ -9,6 +10,7 @@ import com.arctica.rover.suite.view.RoverUI;
  */
 public class RoverClient {
 	public static void main(String [] args) {
+		UIUtils.searchLocalIPs();
 		@SuppressWarnings("unused")
 		RoverUI face = new RoverUI("Rover Control Suite");
 	}
