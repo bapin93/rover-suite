@@ -227,7 +227,6 @@ public class MainUI extends Application implements EventHandler {
 		}
 
 		_ipAddress = new ComboBox<String>();
-		_ipAddress.setValue("Select an ip address");
 		_ipAddress.setPrefWidth(160);
 		GridPane.setHalignment(_ipAddress, HPos.LEFT);
 		_ipAddress.getItems().addAll(UIUtils.getIPAddressValues());

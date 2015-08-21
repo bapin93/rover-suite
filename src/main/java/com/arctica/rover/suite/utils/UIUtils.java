@@ -15,13 +15,13 @@ import java.util.concurrent.ExecutorService;
  * @author andres
  */
 public class UIUtils {
-	
+
 	//==================================================================
 	// VARIABLES
 	//==================================================================
 	private static ExecutorService _executorService;
 	private static List<String> _ipAddressValues;
-	
+
 	//==================================================================
 	// PUBLIC METHODS
 	//==================================================================
@@ -42,7 +42,9 @@ public class UIUtils {
 						String host = subnet + "." + i;
 						if (InetAddress.getByName(host).isReachable(timeout)){
 							System.out.println(host + " is reachable");
-							_ipAddressValues.add(host);
+							if(!_ipAddressValues.contains(host)) {
+								_ipAddressValues.add(host);
+							}
 						}
 					}
 				} catch (UnknownHostException e) {
@@ -52,11 +54,11 @@ public class UIUtils {
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		_executorService.submit(new Runnable() {
 			public void run() {
 				try {
@@ -68,7 +70,9 @@ public class UIUtils {
 						String host = subnet + "." + i;
 						if (InetAddress.getByName(host).isReachable(timeout)){
 							System.out.println(host + " is reachable");
-							_ipAddressValues.add(host);
+							if(!_ipAddressValues.contains(host)) {
+								_ipAddressValues.add(host);
+							}
 						}
 					}
 				} catch (UnknownHostException e) {
@@ -78,11 +82,11 @@ public class UIUtils {
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		_executorService.submit(new Runnable() {
 			public void run() {
 				try {
@@ -94,7 +98,9 @@ public class UIUtils {
 						String host = subnet + "." + i;
 						if (InetAddress.getByName(host).isReachable(timeout)){
 							System.out.println(host + " is reachable");
-							_ipAddressValues.add(host);
+							if(!_ipAddressValues.contains(host)) {
+								_ipAddressValues.add(host);
+							}
 						}
 					}
 				} catch (UnknownHostException e) {
@@ -105,10 +111,10 @@ public class UIUtils {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+
 		});
 	}
-	
+
 	/**
 	 * Returns the current list of scanned ip addresses
 	 * @return _ipAddressValues
