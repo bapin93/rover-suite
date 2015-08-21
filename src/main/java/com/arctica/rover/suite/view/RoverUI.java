@@ -45,8 +45,6 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 	private RoverController _roverController;
 	private Timer _pingTimer;
 	private Boolean [] _keys;
-	private Integer _camera0LL;
-	private Integer _camera0UL;
 	private String _loadingBar;
 
 	private JTextArea _displayArea;
@@ -64,8 +62,6 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 		setLocation(475, 220);
 		setLayout(new BorderLayout());
 		setTitle(name);
-		_camera0LL = 17;
-		_camera0UL = 90;
 		_keys = new Boolean[256];
 		_loadingBar = "|";
 		setVisible(true);
@@ -121,30 +117,12 @@ public class RoverUI extends JFrame implements KeyListener, ActionListener {
 			} else if(e.getKeyCode() == _DKey) {
 				_roverController.right();
 				displayKey(e, "-arcticarover: Turning Right: ");
-			} else if(e.getKeyCode() == 37) {
-				if (_roverController.getCamera0Position() >= _camera0LL) {
-					_roverController.setCamera0Position(_roverController.getCamera0Position() - 1);
-					_roverController.cam0Position(_roverController.getCamera0Position());;
-					_displayArea.append("-arcticarover: Camera Left ");
-					_displayArea.append(_NEW_LINE + "root@arcticarover:~# ");
-					_displayArea.setCaretPosition(_displayArea.getDocument().getLength());
-				}
-			} else if(e.getKeyCode() == 39) {
-				if (_roverController.getCamera0Position() <= _camera0UL) {
-					_roverController.setCamera0Position(_roverController.getCamera0Position() + 1);
-					_roverController.cam0Position(_roverController.getCamera0Position());;
-					_displayArea.append("-arcticarover: Camera Right ");
-					_displayArea.append(_NEW_LINE + "root@arcticarover:~# ");
-					_displayArea.setCaretPosition(_displayArea.getDocument().getLength());
-				}
-			}
-			else{
+			} else{
 				_displayArea.append(_NEW_LINE + "KeyCode: " + e.getKeyCode());
 				_displayArea.append(_NEW_LINE + "root@arcticarover:~# ");
 				_displayArea.setCaretPosition(_displayArea.getDocument().getLength());
 			}
 		} else {
-
 			_displayArea.append(_NEW_LINE + "-arcticarover: rover offline");
 		}
 	}

@@ -24,6 +24,10 @@ public class TimeLimit implements IRunnable {
 	//==================================================================
 	// CONSTRUCTORS
 	//==================================================================
+	/**
+	 * @param limit
+	 * @param runnable
+	 */
 	public TimeLimit(final Integer limit, final IRunnable runnable) {
 		_limit = limit;
 		_runnable = runnable;
@@ -33,6 +37,9 @@ public class TimeLimit implements IRunnable {
 	//==================================================================
 	// PUBLIC METHODS
 	//==================================================================
+	/* (non-Javadoc)
+	 * @see com.arctica.rover.suite.utils.IRunnable#run()
+	 */
 	public synchronized void run() throws Throwable {
 		final Thread thread = new Thread(new Runnable() {
 			public void run() {

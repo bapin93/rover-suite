@@ -3,6 +3,11 @@ package com.arctica.rover.suite.utils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * <p>The ServiceUtils class provides service utilities</p>
+ * 
+ * @author andres
+ */
 public class ServiceUtils {
 	// =============================================================================================
 	// CONSTANTS
@@ -20,8 +25,14 @@ public class ServiceUtils {
 	// =============================================================================================
 	// PUBLIC METHODS
 	// =============================================================================================
+	/**
+	 * Returns the system Executor Service if the service exists. If the service
+	 * is null a new Executor Service is created and returned.
+	 * 
+	 * @return _service
+	 */
 	public static ExecutorService getExecutorService() {
-		if(_service == null) {
+		if (_service == null) {
 			_service = Executors.newCachedThreadPool();
 		}
 		return _service;
@@ -42,6 +53,5 @@ public class ServiceUtils {
 	// =============================================================================================
 	// INNER CLASSES
 	// =============================================================================================
-
 
 }

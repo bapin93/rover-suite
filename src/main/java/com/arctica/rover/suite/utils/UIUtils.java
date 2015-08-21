@@ -2,6 +2,7 @@
 package com.arctica.rover.suite.utils;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -9,8 +10,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
+ * <p>The UIUtils class provides utilities for the UI components</p>
+ * 
  * @author andres
- *
  */
 public class UIUtils {
 	
@@ -44,11 +46,11 @@ public class UIUtils {
 						}
 					}
 				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
+				} catch (ConnectException e) {
+					System.out.println(e.getMessage());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 				
 			}
@@ -70,11 +72,11 @@ public class UIUtils {
 						}
 					}
 				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
+				} catch (ConnectException e) {
+					System.out.println(e.getMessage());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 				
 			}
@@ -96,20 +98,21 @@ public class UIUtils {
 						}
 					}
 				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
+				} catch (ConnectException e) {
+					System.out.println(e.getMessage());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
-				
 			}
 			
 		});
 	}
 	
-	
-	
+	/**
+	 * Returns the current list of scanned ip addresses
+	 * @return _ipAddressValues
+	 */
 	public static List<String> getIPAddressValues() {
 		return _ipAddressValues;
 	}

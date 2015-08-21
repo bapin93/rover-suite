@@ -1,6 +1,5 @@
 package com.arctica.rover.suite.controller;
 
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +19,13 @@ public class RoverController {
 	//==================================================================
 	// CONSTANTS
 	//==================================================================
-	public static final String SERVER_ADDRESS = "http://192.168.2.9:10101";
 
 	//==================================================================
 	// VARIABLES
 	//==================================================================
-	private JSONRPC2Session _rpc; // Connection to the server
-	private Integer _nextRequestID; // Counter for IDs of the requests sent (we don't really care about this, but the protocol requires it)
-	private Boolean _isServerOnline; // Is the server currently online?
-	protected Integer _camera0Position; 	// Current position of the cameras (Servoblaster 10%-87%)
+	private JSONRPC2Session _rpc;
+	private Integer _nextRequestID;
+	private Boolean _isServerOnline;
 
 	//==================================================================
 	// CONSTRUCTORS
@@ -38,7 +35,6 @@ public class RoverController {
 	 * Construct a new BlimpController object that connects to the server at SERVER_ADDR.
 	 */
 	public RoverController(String ipAddress) {
-		_camera0Position = 52;
 		_nextRequestID = 0;
 		try {
 			URL url = new URL("http://" + ipAddress + ":10101");
@@ -61,10 +57,10 @@ public class RoverController {
 	 * @return true if the server initialized correctly and responds to a ping,
 	 *   false otherwise
 	 */
-	public boolean isServerOnline()
-	{
-		if (_rpc == null) // Initialization failed; server cannot be contacted
+	public boolean isServerOnline() {
+		if (_rpc == null) {
 			return false;
+		}
 		_isServerOnline = simplePing();
 		return _isServerOnline;
 	}
@@ -72,10 +68,8 @@ public class RoverController {
 	/**
 	 * Creates a JSON request to stop the rover
 	 */
-	public void stop()
-	{
-		if (_isServerOnline)
-		{
+	public void stop() {
+		if (_isServerOnline) {
 			JSONRPC2Request request = new JSONRPC2Request("stop", newRequestID());
 			try {
 				_rpc.send(request);
@@ -89,10 +83,8 @@ public class RoverController {
 	 * Creates a JSON request to move the rover backwards
 	 */
 	@SuppressWarnings("unused")
-	public void backward()
-	{
-		if (_isServerOnline)
-		{
+	public void backward() {
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("goBackward", newRequestID());
 			try {
@@ -107,10 +99,8 @@ public class RoverController {
 	 * Creates a JSON request to move the rover forwards
 	 */
 	@SuppressWarnings("unused")
-	public void forward()
-	{
-		if (_isServerOnline)
-		{
+	public void forward() {
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("goForward", newRequestID());
 			try {
@@ -125,10 +115,8 @@ public class RoverController {
 	 * Creates a JSON request to move the rover left
 	 */
 	@SuppressWarnings("unused")
-	public void left()
-	{
-		if (_isServerOnline)
-		{
+	public void left() {
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("pivotLeft", newRequestID());
 			try {
@@ -143,10 +131,8 @@ public class RoverController {
 	 * Creates a JSON request to move the rover right
 	 */
 	@SuppressWarnings("unused")
-	public void right()
-	{
-		if (_isServerOnline)
-		{
+	public void right() {
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("pivotRight", newRequestID());
 			try {
@@ -160,10 +146,8 @@ public class RoverController {
 	/**
 	 * @param percentage
 	 */
-	public void cam0Position(final Integer percentage)
-	{
-		if (_isServerOnline)
-		{
+	public void cam0Position(final Integer percentage) {
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			params.add(percentage);
 			JSONRPC2Request request = new JSONRPC2Request("setCam0Position", params, newRequestID());
@@ -176,30 +160,13 @@ public class RoverController {
 	}
 
 	/**
-	 * Returns the position of the camera
-	 * @return the _camera0Position
-	 */
-	public Integer getCamera0Position() {
-		return _camera0Position;
-	}
-
-	/**
-	 * Set the camera position
-	 * @param camera0Position the _camera0Position to set
-	 */
-	public void setCamera0Position(final Integer camera0Position) {
-		_camera0Position = camera0Position;
-	}
-
-	/**
 	 * Creates a JSON request to set the speed of the rover
 	 * @param speed
 	 */
 	public void setSpeed(final Integer speed) {
 		Integer newSpeed = speed;
 		newSpeed = (newSpeed + 1) * 10;
-		if (_isServerOnline)
-		{
+		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			params.add(newSpeed);
 			JSONRPC2Request request = new JSONRPC2Request("setSpeed", params, newRequestID());
@@ -215,20 +182,18 @@ public class RoverController {
 	 * Ping the server to check connection status.
 	 * @return
 	 */
-	public Boolean ping()
-	{
-		final Boolean [] result = new Boolean [1]; // Variable turned into single element array to avoid scope error
+	public Boolean ping() {
+		final Boolean [] result = new Boolean [1];
 		try {
-			new TimeLimit(3000, new IRunnable()
-			{
-				public void run() throws Exception
-				{
+			new TimeLimit(3000, new IRunnable() {
+				public void run() throws Exception {
 					JSONRPC2Request request = new JSONRPC2Request("ping", newRequestID());
 					JSONRPC2Response response = _rpc.send(request);
-					if (response.getResult().equals(true))
+					if (response.getResult().equals(true)) {
 						result[0] = true;
-					else
+					} else {
 						result[0] = false;
+					}
 				}
 			});
 
@@ -249,16 +214,14 @@ public class RoverController {
 		try {
 			JSONRPC2Request request = new JSONRPC2Request("ping", newRequestID());
 			JSONRPC2Response response = _rpc.send(request);
-
 			if (response.getResult().equals(true)) {
 				result = true;
 			} else {
 				result = false;
 			}
-
 		} catch (Exception e) {
 			return false;
-		}catch (Throwable throwable) {
+		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 		}
 		return result;
@@ -284,7 +247,6 @@ public class RoverController {
 		_nextRequestID++;
 		return result;
 	}
-
 
 	//==================================================================
 	// INNER CLASSES
