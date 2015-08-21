@@ -112,6 +112,12 @@ public class MainUI extends Application implements EventHandler {
 				_addressUpdated.setVisible(false);
 				_progressBar.setVisible(true);
 				refreshIPs();
+			} else if (event.getSource() == _ipAddress) {
+				if(!_ipAddress.getValue().equalsIgnoreCase("Select IP")) {
+					_submit.setDisable(false);
+				} else {
+					_submit.setDisable(true);
+				}
 			}
 		} else if (event instanceof KeyEvent) {
 			KeyEvent keyEvent = (KeyEvent)event;
@@ -227,9 +233,11 @@ public class MainUI extends Application implements EventHandler {
 		}
 
 		_ipAddress = new ComboBox<String>();
+		_ipAddress.setOnAction(this);
 		_ipAddress.setPrefWidth(160);
-		GridPane.setHalignment(_ipAddress, HPos.LEFT);
+		_ipAddress.setValue("Select IP");
 		_ipAddress.getItems().addAll(UIUtils.getIPAddressValues());
+		GridPane.setHalignment(_ipAddress, HPos.LEFT);
 
 		_refresh = new Button("Refresh");
 		_refresh.setOnAction(this);
@@ -248,6 +256,7 @@ public class MainUI extends Application implements EventHandler {
 		_submit = new Button("Submit");
 		_submit.setOnAction(this);
 		_submit.setPrefSize(70, 40);
+		_submit.setDisable(true);
 		GridPane.setHalignment(_submit, HPos.LEFT);
 
 		_exit = new Button("Exit");
