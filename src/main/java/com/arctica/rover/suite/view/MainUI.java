@@ -327,7 +327,7 @@ public class MainUI extends Application implements EventHandler {
 			pictureGrid.getRowConstraints().add(row);
 		}
 
-		File wFile = new File("src/main/resources/keys/w.png");
+		File wFile = new File("src/main/resources/keys/w.jpeg");
 		Image wImage = new Image(wFile.toURI().toString());
 		ImageView wKey = new ImageView();
 		wKey.setImage(wImage);
@@ -335,7 +335,7 @@ public class MainUI extends Application implements EventHandler {
 		wKey.setFitHeight(35);
 		GridPane.setHalignment(wKey, HPos.CENTER);
 
-		File aFile = new File("src/main/resources/keys/a.png");
+		File aFile = new File("src/main/resources/keys/a.jpeg");
 		Image aImage = new Image(aFile.toURI().toString());
 		ImageView aKey = new ImageView();
 		aKey.setImage(aImage);
@@ -343,7 +343,7 @@ public class MainUI extends Application implements EventHandler {
 		aKey.setFitHeight(35);
 		GridPane.setHalignment(aKey, HPos.RIGHT);
 
-		File sFile = new File("src/main/resources/keys/s.png");
+		File sFile = new File("src/main/resources/keys/s.jpeg");
 		Image sImage = new Image(sFile.toURI().toString());
 		ImageView sKey = new ImageView();
 		sKey.setImage(sImage);
@@ -351,7 +351,7 @@ public class MainUI extends Application implements EventHandler {
 		sKey.setFitHeight(35);
 		GridPane.setHalignment(sKey, HPos.CENTER);
 
-		File dFile = new File("src/main/resources/keys/d.png");
+		File dFile = new File("src/main/resources/keys/d.jpeg");
 		Image dImage = new Image(dFile.toURI().toString());
 		ImageView dKey = new ImageView();
 		dKey.setImage(dImage);
