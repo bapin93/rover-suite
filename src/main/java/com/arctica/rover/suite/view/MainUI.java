@@ -131,14 +131,14 @@ public class MainUI extends Application implements EventHandler {
 							_roverController.forward();
 							displayKey(keyEvent, "-arcticarover: Going Forward: ");
 						} else if(keyEvent.getCode().impl_getCode() == _AKey) {
-							_roverController.left();
+							_roverController.pivotLeft();
 							displayKey(keyEvent, "-arcticarover: Turning Left: ");
 						} else if(keyEvent.getCode().impl_getCode() == _SKey) {
 							_roverController.stop();
 							_roverController.backward();
 							displayKey(keyEvent, "-arcticarover: Going Backward: ");
 						} else if(keyEvent.getCode().impl_getCode() == _DKey) {
-							_roverController.right();
+							_roverController.pivotRight();
 							displayKey(keyEvent, "-arcticarover: Turning Right: ");
 						} else {
 							_textArea.appendText(_NEW_LINE + "KeyCode: " + keyEvent.getCode().impl_getCode());
@@ -160,13 +160,13 @@ public class MainUI extends Application implements EventHandler {
 						_roverController.forward();
 					} else if(_keys[_AKey] && !(_keys[_WKey] || _keys[_SKey] || _keys[_DKey])){
 						_roverController.stop();
-						_roverController.left();
+						_roverController.pivotLeft();
 					} else if(_keys[_SKey] && !(_keys[_AKey] || _keys[_WKey] || _keys[_DKey])){
 						_roverController.stop();
 						_roverController.backward();
 					} else if(_keys[_DKey] && !(_keys[_AKey] || _keys[_SKey] || _keys[_WKey])){
 						_roverController.stop();
-						_roverController.right();
+						_roverController.pivotRight();
 					} else if(!(_keys[_DKey] ||_keys[_AKey] || _keys[_SKey] || _keys[_WKey])) {
 						_roverController.stop();
 					}

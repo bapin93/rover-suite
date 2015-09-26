@@ -68,7 +68,7 @@ public class UIUtils {
 					int timeout = 3000;
 					for (int i = 8; i < 126; i++){
 						String host = subnet + "." + i;
-						if (InetAddress.getByName(host).isReachable(timeout)){
+						if (InetAddress.getByName(host).isReachable(timeout)) {
 							System.out.println(host + " is reachable");
 							if(!_ipAddressValues.contains(host)) {
 								_ipAddressValues.add(host);
@@ -82,9 +82,7 @@ public class UIUtils {
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
-
 			}
-
 		});
 
 		_executorService.submit(new Runnable() {

@@ -19,7 +19,7 @@ public class RoverController {
 	//==================================================================
 	// CONSTANTS
 	//==================================================================
-
+	private static final String URL = "http://192.168.2.4:10101";
 	//==================================================================
 	// VARIABLES
 	//==================================================================
@@ -37,7 +37,8 @@ public class RoverController {
 	public RoverController(String ipAddress) {
 		_nextRequestID = 0;
 		try {
-			URL url = new URL("http://" + ipAddress + ":10101");
+			//URL url = new URL("http://" + ipAddress + ":10101");
+			URL url = new URL(URL);
 			System.out.println("Connected to: " + ipAddress);
 			_rpc = new JSONRPC2Session(url);
 			_isServerOnline = true;
@@ -115,7 +116,7 @@ public class RoverController {
 	 * Creates a JSON request to move the rover left
 	 */
 	@SuppressWarnings("unused")
-	public void left() {
+	public void pivotLeft() {
 		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("pivotLeft", newRequestID());
@@ -131,7 +132,7 @@ public class RoverController {
 	 * Creates a JSON request to move the rover right
 	 */
 	@SuppressWarnings("unused")
-	public void right() {
+	public void pivotRight() {
 		if (_isServerOnline) {
 			List<Object> params = new ArrayList<Object>();
 			JSONRPC2Request request = new JSONRPC2Request("pivotRight", newRequestID());
@@ -142,7 +143,30 @@ public class RoverController {
 			}
 		}
 	}
-
+	public void turnLeft() {
+		if (_isServerOnline) {
+			List<Object> params = new ArrayList<Object>();
+			JSONRPC2Request request = new JSONRPC2Request("turnLeft", newRequestID());
+			try {
+				_rpc.send(request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void turnRight() {
+		if (_isServerOnline) {
+			List<Object> params = new ArrayList<Object>();
+			JSONRPC2Request request = new JSONRPC2Request("turnRight", newRequestID());
+			try {
+				_rpc.send(request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * @param percentage
 	 */
