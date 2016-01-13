@@ -98,7 +98,6 @@ public class MainUI extends Application implements EventHandler {
 	 * @see javafx.event.EventHandler#handle(javafx.event.Event)
 	 */
 	@SuppressWarnings("deprecation")
-	@Override
 	public void handle(Event event) {
 		if (event instanceof ActionEvent) {
 			if (event.getSource() == _exit) {
@@ -407,7 +406,6 @@ public class MainUI extends Application implements EventHandler {
 		UIUtils.searchLocalIPs();
 		_executorService.submit(new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					Thread.sleep(5000);
